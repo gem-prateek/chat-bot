@@ -1,9 +1,25 @@
 export class ChatMessageDto {
-    user: string;
-    message: string;
+    action: string;
+    data: {
+        name: string,
+        msg: string,
+        to: string
+    };
+    constructor(action: string, msg: string, name: string, to: string) {
+        this.action = action;
+        this.data = {
+            name: name,
+            msg: msg,
+            to: to
+        };
+    }
+}
+export class ChatMessage {
+    name: string;
+    msg: string;
 
-    constructor(user: string, message: string){
-        this.user = user;
-        this.message = message;
+    constructor(msg: string, name: string) {
+        this.name= name,
+        this.msg= msg
     }
 }

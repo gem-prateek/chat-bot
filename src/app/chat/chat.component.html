@@ -18,21 +18,36 @@
             <div class="card">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item" *ngFor="let chatMessage of webSocketService.chatMessages">
-                        <strong>{{chatMessage.user}}: </strong>
-                        <span>{{chatMessage.message}}</span>
+                        <strong>{{chatMessage.name}} </strong>
+                        <span>{{chatMessage.msg}}</span>
                     </li>
                 </ul>
             </div>
         </div>
+        <form (ngSubmit)="connect(connectForm)" #connectForm="ngForm">
+            <div class="chat-send row">
+                <div class="col-2">
+                    <label id="input-user" >User</label>
+                    <input type="text" class="form-control" name="user" id="input-user" ngModel>
+                </div>
+                <div class="col-2">
+                    <button type="submit" class="btn btn-primary">connect</button>
+                </div>
+            </div>
+        </form>
+        
         <form (ngSubmit)="sendMessage(sendForm)" #sendForm="ngForm">
             <div class="chat-send row">
                 <div class="col-2">
-                    <input type="text" class="form-control" name="user" id="input-user" ngModel>
+                    <label id="input-to" >to</label>
+                    <input type="text" class="form-control" name="to" id="input-to" ngModel>
                 </div>
-                <div class="col-8">
+               <div class="col-8">
+                <label id="input-message" >Message</label>
                     <input type="text" class="form-control" name="message" id="input-message" ngModel>
                 </div>
-                <div class="col-2">
+                <span *ngIf="!isConnected">connect first to see the send buttion</span>
+                <div *ngIf="isConnected" class="col-2">
                     <button type="submit" class="btn btn-primary">Send</button>
                 </div>
             </div>

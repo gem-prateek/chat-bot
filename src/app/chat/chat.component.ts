@@ -11,9 +11,17 @@ import { ChatMessageDto } from '../models/chatMessageDto';
 export class ChatComponent implements OnInit, OnDestroy {
 
   constructor(public webSocketService: WebSocketService) { }
+  name:string;
+  isConnected:boolean=false;
 
   ngOnInit(): void {
-    this.webSocketService.openWebSocket();
+    
+  }
+  connect(connectForm: NgForm){
+    console.log(connectForm.value.user);
+    this.name=connectForm.value.user;
+    this.webSocketService.openWebSocket(connectForm.value.user);
+    this.isConnected=true;
   }
 
   ngOnDestroy(): void {
@@ -21,7 +29,9 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   sendMessage(sendForm: NgForm) {
-    const chatMessageDto = new ChatMessageDto(sendForm.value.user, sendForm.value.message);
+    console.log("send from",sendForm.value.message);
+    const chatMessageDto = new ChatMessageDto("sendMsg", sendForm.value.message,this.name,sendForm.value.to);
+    console.log("chatMessageDto-->",chatMessageDto);
     this.webSocketService.sendMessage(chatMessageDto);
     sendForm.controls.message.reset();
   }
